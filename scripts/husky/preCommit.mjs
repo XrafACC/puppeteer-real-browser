@@ -12,4 +12,4 @@ console.log('✨ Building application');
 
 exec('npm run build');
 
-exec('node scripts/actions/stageAll.mjs');
+exec('node scripts/actions/stageChangelog.mjs');

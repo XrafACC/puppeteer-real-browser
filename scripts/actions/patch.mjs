@@ -1,51 +1,66 @@
 import fs from 'fs';
 import path from 'path';
-const curreg = /\[VI\]\{\{(.+?)\}\}\[\/VI\]/g;
 import { owner, repo } from '../utils/octokit.mjs';
 import { getPackageJson } from '../utils/exec.mjs';
+
+const PLACEHOLDER_REGEX = /\[VI\]\{\{(.+?)\}\}\[\/VI\]/g;
 
 const packageJson = getPackageJson();
 
 export default async function () {
    await new Promise(resolve => setTimeout(resolve, 50));
+   const distDir = path.resolve('dist');
+
+   if (!fs.existsSync(distDir)) {
+      console.warn('dist directory not found, skipping patch step');
+      return;
+   }
 
    function getAllJsFiles(dir) {
       const entries = fs.readdirSync(dir, { withFileTypes: true });
+
       return entries.flatMap(entry => {
          const fullPath = path.join(dir, entry.name);
-         if (entry.isDirectory()) return getAllJsFiles(fullPath);
-         if ((entry.isFile() && fullPath.endsWith('.js')) || fullPath.endsWith('.mjs')) return [fullPath];
+
+         if (entry.isDirectory()) {
+            return getAllJsFiles(fullPath);
+         }
+
+         if (entry.isFile() && (fullPath.endsWith('.js') || fullPath.endsWith('.mjs'))) {
+            return [fullPath];
+         }
+
          return [];
       });
    }
 
-   const jsFiles = getAllJsFiles('dist');
+   const jsFiles = getAllJsFiles(distDir);
+
    for (const file of jsFiles) {
       const content = fs.readFileSync(file, 'utf8');
-      if (content.match(curreg)) {
-         const filtered = content.replace(curreg, (match, p1) => {
-            if (p1 === 'version') {
-               return gerVersion();
-            } else if (p1 === 'name') {
+
+      if (!PLACEHOLDER_REGEX.test(content)) continue;
+
+      const patched = content.replace(PLACEHOLDER_REGEX, (_match, key) => {
+         switch (key) {
+            case 'version':
+               return getVersion();
+            case 'name':
                return packageJson.name;
-            } else if (p1 == 'ghown') {
+            case 'ghown':
                return owner;
-            } else if (p1 == 'ghrep') {
+            case 'ghrep':
                return repo;
-            } else {
-               return match;
-            }
-         });
-         fs.writeFileSync(file, filtered, 'utf8');
-         console.log(`🧹 Patched: ${file}`);
-      }
+            default:
+               return _match;
+         }
+      });
+
+      fs.writeFileSync(file, patched, 'utf8');
+      console.log(`Patched: ${file}`);
    }
 }
-function gerVersion() {
-   try {
-      // const source = process.env.BUILD_SOURCE;
-      return `v${packageJson?.version ?? '0.0.1'}`; //${source ? `|${source}` : ''}
-   } catch {
-      return 'v0.0.1';
-   }
+
+function getVersion() {
+   return `v${packageJson?.version ?? '0.0.1'}`;
 }

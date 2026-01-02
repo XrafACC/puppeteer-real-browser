@@ -5,35 +5,62 @@ import { generateUncommittedChangelog } from './generateChangelog.mjs';
 
 async function buildProject() {
    const pkg = getPackageJson();
-   console.log('🚀 Starting GitHub Release Process...');
-   console.log(`🔗 Repository: ${owner}/${repo} (from git remote)`);
-   console.log(`✨ Version: v${pkg.version}`);
    const version = `v${pkg.version}`;
-   const tagExists = await checkTagExists(version);
 
+   console.log('Starting GitHub Release Process');
+   console.log(`Repository: ${owner}/${repo}`);
+   console.log(`Version: ${version}`);
+
+   const tagExists = await checkTagExists(version);
    if (tagExists) {
-      console.log('⚠️  Tag already exists, skipping release creation');
+      console.log('Tag already exists, skipping release');
       return;
    }
-   console.log('✅ Tag does not exist, proceeding with release');
-   const currentSha = await getCurrentCommitSha();
-   console.log(`📍 Current commit: ${currentSha.substring(0, 7)}`);
 
-   console.log('📦 Installing dependencies...');
-   exec('npm ci');
-   console.log('🔨 Building TypeScript...');
-   exec('npm run build', { env: { ...process.env, BUILD_SOURCE: 'GH' } });
-   console.log('📦 Packing npm...');
+   const currentSha = await getCurrentCommitSha();
+   console.log(`Current commit: ${currentSha.slice(0, 7)}`);
+
+   /* ---------- Build phase (fail fast) ---------- */
+
+   try {
+      console.log('Installing dependencies');
+      exec('npm ci', { stdio: 'inherit' });
+
+      console.log('Building project');
+      exec('npm run build', {
+         env: { ...process.env, BUILD_SOURCE: 'GH' },
+         stdio: 'inherit',
+      });
+   } catch (err) {
+      console.error('Build failed, aborting release');
+      throw err;
+   }
+
+   /* ---------- Pack ---------- */
+
+   console.log('Packing npm artifact');
    const tarballBuffer = await pack(process.cwd());
 
-   await createVersionTag(version, currentSha);
-   console.log(`📝 Generating changelog...`);
-   const changelog = await generateUncommittedChangelog();
-   const notes = `## Release Notes${changelog ? `\n\n${changelog}` : ''}`;
+   /* ---------- Tag ---------- */
 
-   const release = await createRelease(version, tarballBuffer, notes);
-   console.log('✅ GitHub Release created successfully!');
-   console.log(`🔗 Release URL: ${release.html_url}`);
-   console.log('📦 Asset uploaded: install.tgz');
+   await createVersionTag(version, currentSha);
+   console.log(`Git tag created: ${version}`);
+
+   /* ---------- Release notes ---------- */
+
+   console.log('Generating changelog');
+   const changelog = await generateUncommittedChangelog();
+
+   const notes = changelog ? `## Release Notes\n\n${changelog}` : '## Release Notes\n\nNo notable changes';
+
+   /* ---------- Release ---------- */
+
+   const release = await createRelease(version, tarballBuffer, notes, {
+      assetName: `${repo}-${version}.tgz`,
+   });
+
+   console.log('GitHub Release created');
+   console.log(`Release URL: ${release.html_url}`);
 }
+
 void buildProject();
