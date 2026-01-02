@@ -43,8 +43,7 @@ export default async function () {
 }
 function gerVersion() {
    try {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const source = process.env.BUILD_SOURCE;
+      // const source = process.env.BUILD_SOURCE;
       return `v${packageJson?.version ?? '0.0.1'}`; //${source ? `|${source}` : ''}
    } catch {
       return 'v0.0.1';
