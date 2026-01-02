@@ -31,7 +31,7 @@
       "release:git": "node ./scripts/actions/githubRelease.mjs"
    },
    "devDependencies": {
-      "@commitlint/config-conventional": "^19.8.1",
+      "@commitlint/config-conventional": "^20.3.0",
       "@commitlint/lint": "^19.8.1",
       "@commitlint/load": "^19.8.1",
       "@eslint/json": "^0.14.0",
