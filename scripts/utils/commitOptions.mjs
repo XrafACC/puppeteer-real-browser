@@ -16,6 +16,7 @@ export const typeMap = {
    deps: { emoji: '📦', text: 'Dependency Updates' },
    release: { emoji: '🚀', text: 'Release' },
    wip: { emoji: '🚧', text: 'Work In Progress' },
+   changelog: { emoji: '📝', text: 'Changelog Updates' },
 };
 
 export const typeKeys = Object.keys(typeMap);

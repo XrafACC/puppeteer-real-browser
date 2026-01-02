@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Latest
 
+### 🐛 Bug Fixes
+
+- Do not commit all changes by [@vrdons](https://github.com/vrdons) ([208bedb](https://github.com/XrafACC/puppeteer-real-browser/commit/208bedb2e3f43d99b7a7f5e921c57afee31dedd4))
+
+### 💄 Styles
+
+- Update changelog styling by [@vrdons](https://github.com/vrdons) ([7241063](https://github.com/XrafACC/puppeteer-real-browser/commit/7241063d72e954d4a4dcb453640e457a425ff2c1))
+- **ci:** Add deps emoji on dependabot by [@vrdons](https://github.com/vrdons) ([263f188](https://github.com/XrafACC/puppeteer-real-browser/commit/263f1885b52e7c7d22a21e82da6fd65ecb5dcd61))
+
+### ♻️ Code Refactoring
+
+- **scripts:** Fix bugs, improve readability by [@vrdons](https://github.com/vrdons) ([94feb08](https://github.com/XrafACC/puppeteer-real-browser/commit/94feb086ae75a00960bdaefcf72a7f48d06b7beb))
+
 ### 🔧 Chores
 
 - Add Module template from https://github.com/vrdons/module-template.git by [@vrdons](https://github.com/vrdons) ([146ac40](https://github.com/XrafACC/puppeteer-real-browser/commit/146ac40c840fea1f32a5a576c01574eb46583a77))
@@ -33,4 +46,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **@eslint/markdown:** bump to 7.5.1 by [@dependabot](https://github.com/dependabot) ([1678c38](https://github.com/XrafACC/puppeteer-real-browser/commit/1678c385d1eaf3ee218dc1f3fd4e5f516584edcd))
 - **@commitlint/config-conventional:** bump to 20.3.0 by [@dependabot](https://github.com/dependabot) ([13aabd1](https://github.com/XrafACC/puppeteer-real-browser/commit/13aabd100bc23835b87ca4cc9937c852b2d37561))
 - **@commitlint/lint:** bump to 20.3.0 by [@dependabot](https://github.com/dependabot) ([6ca85b4](https://github.com/XrafACC/puppeteer-real-browser/commit/6ca85b4669e1acfce196e54f8f11210d0333077d))
+- **@octokit/rest:** bump to 22.0.1 by [@dependabot](https://github.com/dependabot) ([87544cb](https://github.com/XrafACC/puppeteer-real-browser/commit/87544cb5900a87b1e8138a6b683bea68e3b2e845))
+- **@commitlint/load:** bump to 20.3.0 by [@dependabot](https://github.com/dependabot) ([2a32e26](https://github.com/XrafACC/puppeteer-real-browser/commit/2a32e26dd587a533ab7f71e13cb5300684add64f))
 

@@ -164,6 +164,7 @@ export async function generateUncommittedChangelog() {
 
    for (const type of Object.keys(typeMap)) {
       if (!grouped[type]) continue;
+      if (type === 'changelog') continue;
       const label = typeMap[type];
       out += `### ${label.emoji} ${label.text}\n\n`;
 
