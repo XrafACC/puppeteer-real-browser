@@ -35,7 +35,7 @@
       "@commitlint/lint": "^19.8.1",
       "@commitlint/load": "^19.8.1",
       "@eslint/json": "^0.14.0",
-      "@eslint/markdown": "^7.1.0",
+      "@eslint/markdown": "^7.5.1",
       "@octokit/rest": "^22.0.0",
       "@swc/core": "^1.15.8",
       "@types/node": "^25.0.3",
