@@ -5,11 +5,16 @@ export default defineConfig({
    tsconfig: 'tsconfig.json',
    outDir: 'dist',
    external: ['tslib'],
-   format: ['esm', 'cjs'],
+   format: ['esm'],
    clean: true,
-   dts: true,
+   dts: {
+      resolve: true,
+      entry: 'src/index.ts',
+   },
    onSuccess: async () => {
-      const { default: patchBuild } = await import('./scripts/actions/patch.mjs');
+      const { default: patchBuild } = (await import('./scripts/actions/patch.mjs')) as {
+         default: () => Promise<void> | void;
+      };
       return patchBuild();
    },
 });

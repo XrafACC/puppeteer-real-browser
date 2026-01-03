@@ -209,7 +209,6 @@ async function generateChangelog() {
       const cur = tags[i];
       const prev = tags[i + 1];
 
-      // eslint-disable-next-line no-await-in-loop
       const commits = await getCommitsBetween(owner, repo, prev, cur);
       if (!commits.length) continue;
 
