@@ -1,6 +1,7 @@
 {
    "compileOnSave": true,
    "compilerOptions": {
+      "typeRoots": ["./types", "./node_modules/@types"],
       "outDir": "./dist",
       "rootDir": "./src",
       "allowSyntheticDefaultImports": true,
@@ -31,6 +32,6 @@
       "strictNullChecks": true,
       "sourceMap": false,
    },
-   "include": ["src/**/*"],
+   "include": ["src/**/*", "src/types/**/*"],
    "exclude": ["node_modules", "dist", "test"],
 }

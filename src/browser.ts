@@ -2,29 +2,36 @@ import chromium from '@sparticuz/chromium';
 import puppeteer from 'puppeteer-core';
 import { addExtra, PuppeteerExtra, PuppeteerExtraPlugin, VanillaPuppeteer } from 'puppeteer-extra';
 
+import Stealth from './plugins/stealth/index';
 interface LaunchOpts {
    plugins: PuppeteerExtraPlugin[];
 }
+
+const defaultConfig = { plugins: [] };
 
 export class HeadlessBrowser {
    browser!: PuppeteerExtra;
    constructor() {
       //Empty
    }
-   async launch(opts: LaunchOpts) {
+   async launch(opts: LaunchOpts = defaultConfig) {
+      const options = { ...defaultConfig, ...opts };
       const executablePath = await chromium.executablePath();
 
-      const chromium_args = chromium.args;
+      const chromium_args = puppeteer.defaultArgs({ args: chromium.args, headless: false });
       const browser = await puppeteer.launch({
-         ignoreDefaultArgs: true,
+         headless: false,
          executablePath: executablePath,
+         dumpio: true,
+         ignoreDefaultArgs: true,
          args: chromium_args,
       });
 
       const extra = addExtra(browser as unknown as VanillaPuppeteer);
 
-      if (opts.plugins.length > 0) {
-         for (const item of opts.plugins) {
+      extra.use(Stealth);
+      if (options.plugins.length > 0) {
+         for (const item of options.plugins) {
             extra.use(item);
          }
       }
