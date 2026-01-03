@@ -3,7 +3,7 @@ name: Lint Pull Requests
 on:
    pull_request:
       branches:
-         - main # veya PR hedeflediğin branch
+         - main
 
 jobs:
    lint:
