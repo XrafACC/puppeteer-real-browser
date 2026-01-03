@@ -1,84 +1,87 @@
-import { defineConfig } from 'eslint/config';
 import json from '@eslint/json';
-import markdown from '@eslint/markdown';
 import globals from 'globals';
-import prettier from 'eslint-plugin-prettier';
 import js from '@eslint/js';
-import tsc from 'eslint-plugin-tsc';
-import ts from '@typescript-eslint/eslint-plugin';
-import tsparser from '@typescript-eslint/parser';
-export default defineConfig([
-   { ignores: ['package-lock.json', 'dist/**/*', '**/*.d.ts', '**/*.d.mts'] },
+import ts from 'typescript-eslint';
+import prettierConfig from 'eslint-config-prettier';
+import prettierPlugin from 'eslint-plugin-prettier';
+import oxlintPlugin from 'eslint-plugin-oxlint';
+
+export default ts.config(
    {
-      files: ['**/*.json'],
-      ignores: ['package-lock.json'],
-      plugins: { json },
-      language: 'json/json',
-      extends: ['json/recommended'],
+      ignores: ['package-lock.json', 'dist/**/*', '**/node_modules/**', '**/*.d.ts', 'tsconfig.json'],
    },
 
+   {
+      files: ['**/*.{js,mjs,cjs}'],
+      ...js.configs.recommended,
+      languageOptions: {
+         globals: { ...globals.node },
+      },
+   },
+
+   {
+      files: ['**/*.{ts,tsx,mts}'],
+      extends: [...ts.configs.recommendedTypeChecked, ...ts.configs.stylisticTypeChecked],
+      languageOptions: {
+         parserOptions: {
+            projectService: {
+               allowDefaultProject: ['*.ts', 'tsup.config.ts'],
+            },
+            tsconfigRootDir: import.meta.dirname,
+         },
+      },
+      plugins: {
+         '@typescript-eslint': ts.plugin,
+      },
+      rules: {
+         '@typescript-eslint/no-explicit-any': 'error',
+         '@typescript-eslint/no-floating-promises': 'error',
+         '@typescript-eslint/no-misused-promises': 'error',
+         'no-return-await': 'off',
+         '@typescript-eslint/return-await': 'error',
+      },
+   },
+
+   {
+      files: ['**/*.json'],
+      plugins: { json },
+      language: 'json/json',
+      rules: {
+         'json/no-duplicate-keys': 'error',
+      },
+   },
    {
       files: ['**/*.jsonc'],
       plugins: { json },
       language: 'json/jsonc',
-      extends: ['json/recommended'],
+      rules: {
+         'json/no-duplicate-keys': 'error',
+      },
    },
-
    {
       files: ['**/*.json5'],
       plugins: { json },
       language: 'json/json5',
-      extends: ['json/recommended'],
+      rules: {
+         'json/no-duplicate-keys': 'error',
+      },
    },
 
    {
-      files: ['**/*.md'],
-      plugins: { markdown },
-      language: 'markdown/commonmark',
-      extends: ['markdown/recommended'],
-   },
-   {
-      files: ['**/*.js', '**/*.mjs', '**/*.cjs'],
-      plugins: { prettier, js },
-      languageOptions: {
-         globals: {
-            ...globals.node,
-            ...globals.es2021,
-         },
-      },
-      rules: {
-         'prettier/prettier': 'warn',
-      },
-   },
-   {
-      files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.mjs', '**/*.cjs', '**/*.mts'],
-      languageOptions: {
-         parser: tsparser,
-         parserOptions: {
-            project: './tsconfig.eslint.json',
-         },
-      },
       plugins: {
-         tsc,
-         prettier,
-         ts,
+         prettier: prettierPlugin,
       },
-      extends: ['ts/recommended'],
       rules: {
-         '@typescript-eslint/no-explicit-any': 'error',
-         'require-await': 'warn',
-         'no-return-await': 'error',
-         'no-await-in-loop': 'warn',
-         '@typescript-eslint/no-floating-promises': 'error',
-         '@typescript-eslint/require-await': 'warn',
-         '@typescript-eslint/no-misused-promises': 'error',
          'prettier/prettier': 'warn',
-         'tsc/config': [
-            'error',
-            {
-               configFile: 'tsconfig.eslint.json',
-            },
-         ],
+         ...prettierConfig.rules,
       },
    },
-]);
+   {
+      plugins: {
+         oxlint: oxlintPlugin,
+      },
+      rules: {
+         ...oxlintPlugin.configs.recommended.rules,
+      },
+   },
+);

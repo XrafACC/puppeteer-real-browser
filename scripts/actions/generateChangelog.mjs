@@ -121,6 +121,8 @@ function groupCommits(parsed) {
 
    for (const c of parsed) {
       const type = typeMap[c.type] ? c.type : 'chore';
+      if (c.type === 'changelog') continue;
+
       grouped[type] ||= [];
 
       if (c.type === 'deps') {
@@ -164,7 +166,6 @@ export async function generateUncommittedChangelog() {
 
    for (const type of Object.keys(typeMap)) {
       if (!grouped[type]) continue;
-      if (type === 'changelog') continue;
       const label = typeMap[type];
       out += `### ${label.emoji} ${label.text}\n\n`;
 
@@ -208,7 +209,6 @@ async function generateChangelog() {
       const cur = tags[i];
       const prev = tags[i + 1];
 
-      // eslint-disable-next-line no-await-in-loop
       const commits = await getCommitsBetween(owner, repo, prev, cur);
       if (!commits.length) continue;
 

@@ -1,15 +1,12 @@
-name: 🚀 Github Release
+name: Lint Pull Requests
 
 on:
-   push:
+   pull_request:
       branches:
          - main
 
-permissions:
-   contents: write
-
 jobs:
-   release:
+   lint:
       runs-on: ubuntu-latest
 
       steps:
@@ -21,10 +18,11 @@ jobs:
            with:
               node-version: '25'
 
-         - name: 📦 Install dependecies
+         - name: 📦 Install dependencies
            run: npm ci
 
-         - name: 📝 Run github release script
-           run: npm run release:git
-           env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         - name: 📝 Run lint
+           run: npm run lint
+
+         - name: 📝 Check Typescript
+           run: npm run check

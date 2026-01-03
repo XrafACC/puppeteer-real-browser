@@ -6,8 +6,8 @@
       "allowSyntheticDefaultImports": true,
       "alwaysStrict": true,
       "declaration": true,
-      "module": "nodenext",
-      "moduleResolution": "nodenext",
+      "module": "ESNext",
+      "moduleResolution": "bundler",
       "resolveJsonModule": true,
       "allowJs": false,
       "checkJs": false,
@@ -27,8 +27,10 @@
       "pretty": true,
       "removeComments": false,
       "skipLibCheck": true,
-      "composite": true,
-      "sourceMap": false
+      "composite": false,
+      "strictNullChecks": true,
+      "sourceMap": false,
    },
-   "include": ["src"]
+   "include": ["src/**/*"],
+   "exclude": ["node_modules", "dist", "test"],
 }

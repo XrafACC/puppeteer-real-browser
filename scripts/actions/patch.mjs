@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { owner, repo } from '../utils/octokit.mjs';
 import { getPackageJson } from '../utils/exec.mjs';
+import { minify } from 'oxc-minify';
 
 const PLACEHOLDER_REGEX = /\[VI\]\{\{(.+?)\}\}\[\/VI\]/g;
 
@@ -56,7 +57,26 @@ export default async function () {
          }
       });
 
-      fs.writeFileSync(file, patched, 'utf8');
+      try {
+         const result = await minify(file, patched, {
+            mangle: { toplevel: true },
+            compress: {
+               target: 'esnext',
+            },
+         });
+         if (result.errors.length > 0) {
+            console.error(`Minification errors in ${file}:`);
+            console.error(result.errors);
+            throw new Error(`Minification failed for ${file}`);
+         }
+         if (!result.code) {
+            throw new Error(`Minification produced no output for ${file}`);
+         }
+         fs.writeFileSync(file, result.code, 'utf8');
+      } catch (error) {
+         console.error(`Failed to minify ${file}:`, error);
+         throw error;
+      }
       console.log(`Patched: ${file}`);
    }
 }
