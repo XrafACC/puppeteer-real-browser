@@ -18,18 +18,16 @@ export class HeadlessBrowser {
       const options = { ...defaultConfig, ...opts };
       const executablePath = await chromium.executablePath();
 
-      const chromium_args = puppeteer.defaultArgs({ args: chromium.args, headless: false });
+      const chromium_args = puppeteer.defaultArgs({ args: chromium.args, headless: 'shell' });
       const browser = await puppeteer.launch({
-         headless: false,
+         headless: 'shell',
          executablePath: executablePath,
-         dumpio: true,
          ignoreDefaultArgs: true,
          args: chromium_args,
       });
-
       const extra = addExtra(browser as unknown as VanillaPuppeteer);
 
-      extra.use(Stealth);
+      extra.use(Stealth());
       if (options.plugins.length > 0) {
          for (const item of options.plugins) {
             extra.use(item);

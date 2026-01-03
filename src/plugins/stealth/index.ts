@@ -5,10 +5,14 @@ type StealthOptions = Record<string, unknown>;
 /*
 export interface StealthOptions {}
 */
-export class StealthPlugin extends PuppeteerExtraPlugin<Required<StealthOptions>> {
-   _isPuppeteerExtraPlugin = true;
-   constructor(opts: StealthOptions = {}) {
+export class StealthPlugin extends PuppeteerExtraPlugin {
+   constructor(opts: Partial<StealthOptions> = {}) {
       super(opts);
+   }
+
+   onPluginRegistered() {
+      this.debug('StealthPlugin initialized');
+      return Promise.resolve();
    }
 
    override get name(): string {
@@ -19,8 +23,7 @@ export class StealthPlugin extends PuppeteerExtraPlugin<Required<StealthOptions>
       return {};
    }
 
-   override async onPageCreated(page: Page) {
-      await import('./evasions/_template/index').then(({ onPageCreated }) => onPageCreated(page));
+   async onPageCreated(page: Page) {
       console.log('onPageCreated');
       await page.evaluateOnNewDocument(() => {
          const doc: unknown = globalThis.document;
@@ -31,4 +34,6 @@ export class StealthPlugin extends PuppeteerExtraPlugin<Required<StealthOptions>
       });
    }
 }
-export default new StealthPlugin();
+export default function (pluginConfig: Partial<StealthOptions> = {}) {
+   return new StealthPlugin(pluginConfig);
+}
