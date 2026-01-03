@@ -5,11 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Latest
+## [v0.0.1](https://github.com/XrafACC/puppeteer-real-browser/releases/tag/v0.0.1) - 2026-01-02
+
+### ✨ Features
+
+- Minimal browser by [@vrdons](https://github.com/vrdons) ([db79905](https://github.com/XrafACC/puppeteer-real-browser/commit/db799053fccf89dba5979343f8f23e3db7e09608))
+- Oxlint by [@vrdons](https://github.com/vrdons) ([3e4bb5f](https://github.com/XrafACC/puppeteer-real-browser/commit/3e4bb5f8f9d40e01f743e4db86c9d038f7f3fec5))
+- Oxcminify by [@vrdons](https://github.com/vrdons) ([ff8e1e4](https://github.com/XrafACC/puppeteer-real-browser/commit/ff8e1e4ef9a6e6ec15165a5ed7cd1fc1bb4c44f6))
 
 ### 🐛 Bug Fixes
 
 - Do not commit all changes by [@vrdons](https://github.com/vrdons) ([208bedb](https://github.com/XrafACC/puppeteer-real-browser/commit/208bedb2e3f43d99b7a7f5e921c57afee31dedd4))
+- **scripts:** Do not generate changelog by [@vrdons](https://github.com/vrdons) ([aff1840](https://github.com/XrafACC/puppeteer-real-browser/commit/aff184094a54bcb0b37387633fdade8ef2900dad))
+- **ci:** Permissions by [@vrdons](https://github.com/vrdons) ([c570f75](https://github.com/XrafACC/puppeteer-real-browser/commit/c570f75ff08037d2a562710f1aed227a32f910c8))
+- Language mismatch for JSONC and JSON5 files by [@vrdons](https://github.com/vrdons) ([e7adbd3](https://github.com/XrafACC/puppeteer-real-browser/commit/e7adbd317ff7dc4bbe3b71914d0e6bb8a6d6f7f9))
 
 ### 💄 Styles
 
@@ -24,11 +33,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add Module template from https://github.com/vrdons/module-template.git by [@vrdons](https://github.com/vrdons) ([146ac40](https://github.com/XrafACC/puppeteer-real-browser/commit/146ac40c840fea1f32a5a576c01574eb46583a77))
 - Fix issues by [@vrdons](https://github.com/vrdons) ([63da305](https://github.com/XrafACC/puppeteer-real-browser/commit/63da30596a18ede28cd27259ba6570c4990b3c8a))
+- Add error handling for minification failures by [@vrdons](https://github.com/vrdons) ([cb6b711](https://github.com/XrafACC/puppeteer-real-browser/commit/cb6b711378cb1c99f5378702dce0f39cd2c2580e))
+- Merge pull request #17 from XrafACC/puppeteer by [@vrdons](https://github.com/vrdons) ([cc3cbbe](https://github.com/XrafACC/puppeteer-real-browser/commit/cc3cbbe4aabbc5d028e728a300e9212a9ada0a0c))
 
 ### ⚙️ Continuous Integration
 
 - remove npm support by [@vrdons](https://github.com/vrdons) ([f9ccf6c](https://github.com/XrafACC/puppeteer-real-browser/commit/f9ccf6c2ec0273aa84b1994dc147dcef46f9b0f8))
 - Add dependabot by [@vrdons](https://github.com/vrdons) ([2769fac](https://github.com/XrafACC/puppeteer-real-browser/commit/2769fac5943614a3a8187519bafd714630e3228b))
+- Add linting to pull requests by [@vrdons](https://github.com/vrdons) ([6e7c6f1](https://github.com/XrafACC/puppeteer-real-browser/commit/6e7c6f13ef111a212956254c9d607ec84a889c47))
+- Update linting deps by [@vrdons](https://github.com/vrdons) ([093d079](https://github.com/XrafACC/puppeteer-real-browser/commit/093d07974421ddef718e29377011dae75f884e97))
+
+### 🛠️ Configuration
+
+- Update eslint config by [@vrdons](https://github.com/vrdons) ([2f653f0](https://github.com/XrafACC/puppeteer-real-browser/commit/2f653f08989c6797651a9eec048ca14ecaf5daeb))
 
 ### 📦 Dependency Updates
 
