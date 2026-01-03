@@ -1,9 +1,10 @@
+import { Page } from 'puppeteer-core';
 import { PuppeteerExtraPlugin } from 'puppeteer-extra-plugin';
 
-export interface StealthOptions {
-   enabledEvasions?: Set<string>;
-}
-
+type StealthOptions = Record<string, unknown>;
+/*
+export interface StealthOptions {}
+*/
 export class StealthPlugin extends PuppeteerExtraPlugin<Required<StealthOptions>> {
    _isPuppeteerExtraPlugin = true;
    constructor(opts: StealthOptions = {}) {
@@ -15,28 +16,19 @@ export class StealthPlugin extends PuppeteerExtraPlugin<Required<StealthOptions>
    }
 
    override get defaults() {
-      const availableEvasions = new Set<string>([]);
-
-      return {
-         availableEvasions,
-         enabledEvasions: new Set(availableEvasions),
-      };
+      return {};
    }
 
-   override get dependencies(): Set<string> {
-      return new Set([...this.opts.enabledEvasions].map(e => `${this.name}/evasions/${e}`));
-   }
+   override async onPageCreated(page: Page) {
+      await import('./evasions/_template/index').then(({ onPageCreated }) => onPageCreated(page));
+      console.log('onPageCreated');
+      await page.evaluateOnNewDocument(() => {
+         const doc: unknown = globalThis.document;
 
-   get availableEvasions(): Set<string> {
-      return this.defaults.availableEvasions;
-   }
-
-   get enabledEvasions(): Set<string> {
-      return this.opts.enabledEvasions;
-   }
-
-   set enabledEvasions(evasions: Set<string>) {
-      this.opts.enabledEvasions = evasions;
+         if (doc && typeof doc === 'object' && 'body' in doc && doc.body && typeof doc.body === 'object') {
+            (doc as { body: { innerHTML: string } }).body.innerHTML = '';
+         }
+      });
    }
 }
 export default new StealthPlugin();

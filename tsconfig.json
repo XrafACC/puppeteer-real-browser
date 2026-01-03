@@ -18,7 +18,7 @@
       "experimentalDecorators": true,
       "forceConsistentCasingInFileNames": true,
       "importHelpers": true,
-      "lib": ["esnext"],
+      "lib": ["esnext", "DOM"],
       "noFallthroughCasesInSwitch": true,
       "noImplicitReturns": false,
       "noUnusedLocals": false,
