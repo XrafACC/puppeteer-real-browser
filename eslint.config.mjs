@@ -4,6 +4,7 @@ import js from '@eslint/js';
 import ts from 'typescript-eslint';
 import prettierConfig from 'eslint-config-prettier';
 import prettierPlugin from 'eslint-plugin-prettier';
+import oxlintPlugin from 'eslint-plugin-oxlint';
 
 export default ts.config(
    {
@@ -57,6 +58,14 @@ export default ts.config(
       rules: {
          'prettier/prettier': 'warn',
          ...prettierConfig.rules,
+      },
+   },
+   {
+      plugins: {
+         oxlint: oxlintPlugin,
+      },
+      rules: {
+         ...oxlintPlugin.configs.recommended.rules,
       },
    },
 );

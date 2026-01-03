@@ -22,7 +22,7 @@
    },
    "scripts": {
       "prepare": "node ./scripts/husky/installHusky.mjs",
-      "lint": "eslint .",
+      "lint": "oxlint && eslint .",
       "lint:fix": "eslint . --fix",
       "build": "tsup",
       "check": "tsc --noEmit",
@@ -46,7 +46,9 @@
       "prettier": "^3.7.4",
       "tsup": "^8.5.1",
       "typescript": "^5.9.3",
-      "typescript-eslint": "^8.51.0"
+      "typescript-eslint": "^8.51.0",
+      "eslint-plugin-oxlint": "^1.36.0",
+      "oxlint": "^1.36.0"
    },
    "dependencies": {
       "@sparticuz/chromium": "^143.0.4",
