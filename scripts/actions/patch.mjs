@@ -57,18 +57,26 @@ export default async function () {
          }
       });
 
-      const result = await minify(file, patched, {
-         mangle: { toplevel: true },
-         compress: {
-            target: 'esnext',
-         },
-      });
-      if (result.errors.length > 0) {
-         console.error(`Minification errors in ${file}:`);
-         console.error(result.errors);
+      try {
+         const result = await minify(file, patched, {
+            mangle: { toplevel: true },
+            compress: {
+               target: 'esnext',
+            },
+         });
+         if (result.errors.length > 0) {
+            console.error(`Minification errors in ${file}:`);
+            console.error(result.errors);
+            throw new Error(`Minification failed for ${file}`);
+         }
+         if (!result.code) {
+            throw new Error(`Minification produced no output for ${file}`);
+         }
+         fs.writeFileSync(file, result.code, 'utf8');
+      } catch (error) {
+         console.error(`Failed to minify ${file}:`, error);
+         throw error;
       }
-
-      fs.writeFileSync(file, result.code, 'utf8');
       console.log(`Patched: ${file}`);
    }
 }
