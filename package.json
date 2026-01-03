@@ -27,7 +27,8 @@
       "build": "tsup",
       "check": "tsc --noEmit",
       "changelog": "node ./scripts/actions/generateChangelog.mjs",
-      "release:git": "node ./scripts/actions/githubRelease.mjs"
+      "release:git": "node ./scripts/actions/githubRelease.mjs",
+      "test:browser": "npm run build && node ./test/test_browser.js"
    },
    "devDependencies": {
       "@commitlint/config-conventional": "^20.3.0",
@@ -48,6 +49,7 @@
       "typescript-eslint": "^8.51.0"
    },
    "dependencies": {
+      "@sparticuz/chromium": "^143.0.4",
       "@sparticuz/chromium-min": "^143.0.4",
       "puppeteer-core": "^24.34.0",
       "puppeteer-extra": "^3.3.6",
