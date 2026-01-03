@@ -43,9 +43,25 @@ export default ts.config(
    },
 
    {
-      files: ['**/*.json', '**/*.jsonc', '**/*.json5'],
+      files: ['**/*.json'],
       plugins: { json },
       language: 'json/json',
+      rules: {
+         'json/no-duplicate-keys': 'error',
+      },
+   },
+   {
+      files: ['**/*.jsonc'],
+      plugins: { json },
+      language: 'json/jsonc',
+      rules: {
+         'json/no-duplicate-keys': 'error',
+      },
+   },
+   {
+      files: ['**/*.json5'],
+      plugins: { json },
+      language: 'json/json5',
       rules: {
          'json/no-duplicate-keys': 'error',
       },
