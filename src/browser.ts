@@ -1,19 +1,34 @@
 import chromium from '@sparticuz/chromium';
-import puppeteer, { Browser } from 'puppeteer-core';
+import puppeteer from 'puppeteer-core';
+import { addExtra, PuppeteerExtra, PuppeteerExtraPlugin, VanillaPuppeteer } from 'puppeteer-extra';
+
+interface LaunchOpts {
+   plugins: PuppeteerExtraPlugin[];
+}
 
 export class HeadlessBrowser {
-   browser: Browser;
+   browser!: PuppeteerExtra;
    constructor() {
-      const chromium_args = chromium.args;
-      console.log('chromium_args:', chromium_args);
+      //Empty
    }
-   async launch() {
+   async launch(opts: LaunchOpts) {
       const executablePath = await chromium.executablePath();
+
+      const chromium_args = chromium.args;
       const browser = await puppeteer.launch({
+         ignoreDefaultArgs: true,
          executablePath: executablePath,
-         args: chromium.args,
+         args: chromium_args,
       });
-      this.browser = browser;
+
+      const extra = addExtra(browser as unknown as VanillaPuppeteer);
+
+      if (opts.plugins.length > 0) {
+         for (const item of opts.plugins) {
+            extra.use(item);
+         }
+      }
+      this.browser = extra;
       return browser;
    }
 }
