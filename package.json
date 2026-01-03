@@ -48,12 +48,11 @@
       "prettier": "^3.7.4",
       "tsup": "^8.5.1",
       "typescript": "^5.9.3",
-      "typescript-eslint": "^8.51.0"
+      "typescript-eslint": "^8.51.0",
+      "oxc-minify": "^0.106.0"
    },
    "dependencies": {
       "@sparticuz/chromium": "^143.0.4",
-      "@sparticuz/chromium-min": "^143.0.4",
-      "oxc-minify": "^0.106.0",
       "puppeteer-core": "^24.34.0",
       "puppeteer-extra": "^3.3.6",
       "puppeteer-extra-plugin": "^3.2.3",
